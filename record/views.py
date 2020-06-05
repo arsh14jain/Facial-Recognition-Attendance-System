@@ -17,7 +17,8 @@ import io
 # Create your views here.
 @login_required
 def profile(request):
-    return render(request, "profile/profile.html")
+    uname = request.user.admindetail.name
+    return render(request, "profile/profile.html",{"name": uname})
 
 
 def signup(request):
@@ -25,32 +26,30 @@ def signup(request):
     if request.method == "POST":
         user_form = UserCreationForm(request.POST)
         admin_form = ProductKeyForm(request.POST)
-        if user_form.is_valid() and admin_form.is_valid():
-            user_form.save()
-            username = user_form.cleaned_data.get("username")
-            password = user_form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=password)
-            ad = admin_form.save(commit=False)
-            ad.user = user
-            ad.save()
-            new_user = authenticate(
-                username=user_form.cleaned_data["username"],
-                password=user_form.cleaned_data["password1"],
-            )
-            login(request, new_user)
-            request = "GET"
-            return redirect("/accounts/admin_details/")
-        else:
-            return HttpResponse("hlllo")
+        if user_form.is_valid():
+            if admin_form.is_valid():
+                user_form.save()
+                username = user_form.cleaned_data.get("username")
+                password = user_form.cleaned_data.get("password1")
+                user = authenticate(username=username, password=password)
+                ad = admin_form.save(commit=False)
+                ad.user = user
+                ad.save()
+                new_user = authenticate(
+                    username=user_form.cleaned_data["username"],
+                    password=user_form.cleaned_data["password1"],
+                )
+                login(request, new_user)
+                request = "GET"
+                return redirect("/accounts/admin_details/")
 
-    else:
-        user_form = UserCreationForm()
-        admin_form = ProductKeyForm()
-        return render(
-            request,
-            "registration/signup.html",
-            {"user_form": user_form, "admin_form": admin_form,},
-        )
+    user_form = UserCreationForm()
+    admin_form = ProductKeyForm()
+    return render(
+        request,
+        "registration/signup.html",
+        {"user_form": user_form, "admin_form": admin_form,},
+    )
 
 
 @login_required
@@ -61,7 +60,7 @@ def admin_details(request):
         if form.is_valid():
             form.save()
             request = "GET"
-            return redirect("/employees/")
+            return redirect("/")
     else:
         form = AdminDetailForm()
         return render(request, "registration/admin_details.html", {"form": form})
@@ -84,9 +83,7 @@ def camera_view(request):
         img11 = request.POST.get("mydata")
         # img = request.FILES["webcam"]
         imgdata = base64.b64decode(img11)
-        filename = (
-            "some_image.jpg"
-        )
+        filename = "some_image.jpg"
         with open(filename, "wb") as f:
             f.write(imgdata)
         # print(img11)
@@ -104,7 +101,6 @@ def camera_view(request):
                 nm = emp.employee_name
                 empid = emp.employee_id
                 break
-        res = "Welcome " + nm
 
         a = Attendance(
             product_key=request.user.admindetail.product_key,
@@ -113,7 +109,7 @@ def camera_view(request):
             ),
         )
         a.save()
-        return HttpResponse(res)
+        return render(request, "camera/result.html",{"name":nm})
     else:
         return render(request, "camera/cam.html")
 
@@ -122,9 +118,7 @@ def camera_view(request):
 def add_employee(request):
     if request.method == "POST":
         product_ke = request.user.admindetail.product_key
-        emp_form = EmployeeDetailForm(
-            request.POST, request.FILES
-        )
+        emp_form = EmployeeDetailForm(request.POST, request.FILES)
         if emp_form.is_valid():
             # product_key = request.user.admindetail.product_key
             e = emp_form.save(commit=False)
@@ -133,7 +127,7 @@ def add_employee(request):
             return HttpResponse("Employee Added!!")
         return HttpResponse("Invalid Form")
     form = EmployeeDetailForm()
-    return render(request, "profile/add_employee.html", {"form": form})
+    return render(request, "registration/add_employee.html", {"form": form})
 
 
 @login_required

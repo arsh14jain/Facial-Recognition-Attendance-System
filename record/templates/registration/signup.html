@@ -1,4 +1,47 @@
-<html>
+
+
+
+{% extends 'registration/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="global-container">
+  <div class="card login-form">
+  <div class="card-body">
+    <h3 class="card-title text-center">Signup</h3>
+    <div class="card-text">
+      <!--
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+      <form method="post">
+       {% csrf_token %}
+        <!-- to error: add class "has-danger" -->
+        <div class="form-group">
+            {{admin_form.product_key|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{user_form.username|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{user_form.password1|as_crispy_field}}
+        </div>
+        <div class="form-group">
+            {{user_form.password2|as_crispy_field}}
+        </div>
+        <center>
+       <button type="submit" class="btn btn-primary">Sign up</button>
+        
+        <div class="sign-up">
+          Already have an account? <a href="{% url 'login' %}">Sign in</a>
+        </div>
+        </center>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+{% comment %} <html>
 <body>
     <form method="POST">
     {% csrf_token %} 
@@ -7,4 +50,4 @@
     <input type="submit">
     </form>
 </body>
-</html>
+</html> {% endcomment %}

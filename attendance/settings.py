@@ -28,7 +28,7 @@ with open("attendance/etc/secret_key.txt") as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["young-hollows-15148.herokuapp.com"]
+ALLOWED_HOSTS = ["young-hollows-15148.herokuapp.com","127.0.0.1"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "record.apps.RecordConfig",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)

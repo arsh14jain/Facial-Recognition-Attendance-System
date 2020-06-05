@@ -1,8 +1,30 @@
-<html>
-    <body>
+{% extends 'profile/base.html' %}
+{% block content %}
+        <br>
+        <br>
+        <h1>
+            Employee Details
+        </h1>
+        <br>
+    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Employee ID</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Department</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for emp in emps %}
-            {{emp.employee_name}}
-            <br>
+            <tr>
+            <td>{{emp.employee_name}}</td>
+            <td>{{emp.employee_id}}</td>
+            <td>{{emp.phone_number}}</td>
+            <td>{{emp.department}}</td>
+            </tr>
         {% endfor %}
-    </body>
-</html>
+        </tbody>
+        </table>
+  {% endblock %}
