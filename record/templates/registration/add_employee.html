@@ -10,7 +10,7 @@
     <div class="card-text">
       <!--
       <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
-      <form method="post">
+      <form method="post" enctype="multipart/form-data">
        {% csrf_token %}
         <!-- to error: add class "has-danger" -->
         <div class="form-group">
@@ -26,7 +26,7 @@
             {{form.department|as_crispy_field}}
         </div>
         <div class="form-group">
-            {{form.profile_photo|as_crispy_field}}
+            {{form.profile_photo}}
         </div>
         <center>
         <button type="submit" class="btn btn-primary">Add</button>
