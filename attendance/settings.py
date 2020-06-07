@@ -19,8 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = "7ewy%colph4s+ykb5s^or@+aiazzx)%(8&x1jw&qb^qgwho9g+"
 with open("attendance/etc/secret_key.txt") as f:
     SECRET_KEY = f.read().strip()
 
@@ -123,15 +121,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
-# Heroku: Update database configuration from $DATABASE_URL.
+
 
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
 
-# AWS_ACCESS_KEY_ID = "AKIAVO2P337ZKZPMZ364"
-# AWS_SECRET_ACCESS_KEY = "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"
-# AWS_STORAGE_BUCKET_NAME = "attmediaprofilefacial"
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
