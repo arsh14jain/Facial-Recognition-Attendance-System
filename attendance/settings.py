@@ -28,7 +28,7 @@ with open("attendance/etc/secret_key.txt") as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["young-hollows-15148.herokuapp.com","127.0.0.1"]
+ALLOWED_HOSTS = ["young-hollows-15148.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "record.apps.RecordConfig",
     "crispy_forms",
+    "storages",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -99,22 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },
-    },
-}
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -139,6 +124,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 # Heroku: Update database configuration from $DATABASE_URL.
+
+AWS_ACCESS_KEY_ID = "AKIAVO2P337ZKZPMZ364"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "attmediaprofilefacial"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
 import dj_database_url
+
 db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+DATABASES["default"].update(db_from_env)
